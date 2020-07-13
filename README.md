@@ -27,7 +27,5 @@ Demo의 목적 : 설치된 유엠테크 장비 개조를 위한 사전 검증
 ## Revision history
 
 ### v0.0.0
-  - 2019.11.20 uploaded
+  - 2020.07.13 uploaded
   
-### v0.0.0
-  - 2020.03.26 uploaded

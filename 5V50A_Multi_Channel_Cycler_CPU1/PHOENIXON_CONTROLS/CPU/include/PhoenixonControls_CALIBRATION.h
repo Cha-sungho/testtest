@@ -1,0 +1,33 @@
+/*
+ * PhoenixonControls_CALIBRATION.h
+ *
+ *  Created on: 2018. 5. 20.
+ *      Author: BGKim
+ */
+
+#ifndef PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_CALIBRATION_H_
+#define PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_CALIBRATION_H_
+
+#define CALIBRATION_VOLATAGE_UNIT_VALUE        (1)
+#define CALIBRATION_VOLATAGE_MIN_VALUE         (0)        // 0.0 ∫Œ≈Õ
+#define CALIBRATION_VOLATAGE_MAX_VALUE         (5)
+#define CALIBRATION_VOLATAGE_MAX_ARRAY_LENGTH  (Uint16)(((CALIBRATION_VOLATAGE_MAX_VALUE - CALIBRATION_VOLATAGE_MIN_VALUE) / (CALIBRATION_VOLATAGE_UNIT_VALUE)) + 1.0)
+
+//50A
+#define CALIBRATION_CURRENT_UNIT_VALUE         (10)      // 10A
+#define CALIBRATION_CURRENT_MIN_VALUE          (0)
+#define CALIBRATION_CURRENT_MAX_VALUE          (60)     // 60A
+#define CALIBRATION_CURRENT_MAX_ARRAY_LENGTH   (Uint16)(((CALIBRATION_CURRENT_MAX_VALUE - CALIBRATION_CURRENT_MIN_VALUE) / (CALIBRATION_CURRENT_UNIT_VALUE)) + 1.0)
+
+#define CALIBRATION_LOW_CURRENT_UNIT_VALUE         (float) (0.1)      // 100mA
+#define CALIBRATION_LOW_CURRENT_MIN_VALUE          (float) (0.0)
+#define CALIBRATION_LOW_CURRENT_MAX_VALUE          (float) (1.1)     // 1.1A
+#define CALIBRATION_LOW_CURRENT_MAX_ARRAY_LENGTH   (Uint16)(((CALIBRATION_LOW_CURRENT_MAX_VALUE - CALIBRATION_LOW_CURRENT_MIN_VALUE) / (CALIBRATION_LOW_CURRENT_UNIT_VALUE)) + 1.0)
+                                                    // 12∞≥
+
+void CALIBRATION_Init(Uint16 channel);
+float32 CALIBRATION_ConversionREF(float REF_Data, float *CAL_Data, float InitialValue, float Unit, Uint16 ArrayLength);
+float32 CALIBRATION_ConversionCurrentADC(float32 ADC_Data, float32 *Measure_Data, float32 *CAL_Data, float32 InitialValue, float32 Unit, Uint16 ArrayLength);
+float32 CALIBRATION_ConversionVoltageADC(float32 ADC_Data, float32 *CAL_Data, float32 InitialValue, float32 Unit, Uint16 ArrayLength);
+
+#endif /* PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_CALIBRATION_H_ */

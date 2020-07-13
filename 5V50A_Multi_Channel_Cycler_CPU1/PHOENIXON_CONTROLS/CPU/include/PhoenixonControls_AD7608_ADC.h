@@ -1,0 +1,67 @@
+/*
+ * PhoenixonControls_AD7608.h
+ *
+ *  Created on: 2020. 3. 30.
+ *      Author: HW2
+ */
+
+#ifndef PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7608_ADC_H_
+#define PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7608_ADC_H_
+
+#define AD7608_GAIN_5V      (float)(38.14697266E-6)// Ex) 5(VIN) = 131072( 5V Sampling Code) * 38.14697266E-6( 5V/Sampling bit)
+#define AD7608_GAIN_10V     (float)(76.29394531E-6)// Ex)10(VIN) = 131072(10V Sampling Code) * 76.29394531E-6(10V/Sampling bit)
+
+// U6의 Y0 = 001000    ->  (0x100008)  ADC_nRD
+// U6의 Y6 = 001110    ->  (0x10000E)  ADC_nRD_2
+
+// U7의 Y0 = 001000    ->  (0x100008)  ADC_CNVST
+// U7의 Y1 = 001001    ->  (0x100009)  ADC_CNVST_2
+
+#define AD7608_ADC_CNVST_ADDRESS            (Uint32)(0x100008)
+#define AD7608_READ_ADC_ADDRESS             (Uint32)(0x100008)
+
+#define AD7608_ADC2_CNVST_ADDRESS           (Uint32)(0x100009)
+#define AD7608_READ_ADC2_ADDRESS            (Uint32)(0x10000E)
+
+#define AD7608_READ_ADC(X)                  {DSP_EmifRead(AD7608_READ_ADC_ADDRESS, X);}
+#define AD7608A_CONVERSION                   {DSP_EmifWrite(AD7608_ADC_CNVST_ADDRESS, 0xFFFF);}
+#define AD7608_READ_ADC2(X)                  {DSP_EmifRead(AD7608_READ_ADC2_ADDRESS, X);}
+#define AD7608B_CONVERSION                   {DSP_EmifWrite(AD7608_ADC2_CNVST_ADDRESS, 0xFFFF);}
+
+
+typedef enum
+{
+    AD7608_OS_NON,
+    AD7608_02,
+    AD7608_04,
+    AD7608_08,
+    AD7608_16,
+    AD7608_32,
+    AD7608_64
+}E_AD7608_OVER_SAMPLING_SELECT;
+
+typedef enum
+{
+    AD7608_VR_NON,
+    AD7608_05_VOLTAGE,
+    AD7608_10_VOLTAGE
+}E_AD7608_VOLTAGE_RANGE_SELECT;
+
+typedef enum
+{
+    AD7608,
+    AD7608_LOW_CURRENT,
+    ADC_SELECT_RESERVE,
+    AD7608_ALL
+}E_AD7608_ADC_SELECT;
+
+void AD7608_Init(void);
+void AD7608_Reset(void);
+Uint16 AD7608_Conversion(E_AD7608_ADC_SELECT e_Channel);
+Uint16 AD7608_BusyCheck(E_AD7608_ADC_SELECT e_Channel);
+Uint16 AD7608_CurrentBusyCheck(void);
+Uint16 AD7608_OverSamplingSelect(E_AD7608_OVER_SAMPLING_SELECT e_OverSampling);
+Uint16 AD7608_VoltageRangeSelect(E_AD7608_VOLTAGE_RANGE_SELECT e_Voltage);
+Uint16 AD7608_Read(E_AD7608_ADC_SELECT e_Channel, E_AD7608_VOLTAGE_RANGE_SELECT e_Voltage, E_AD7608_OVER_SAMPLING_SELECT e_OverSampling, float32 *Data);
+
+#endif /* PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7608_ADC_H_ */

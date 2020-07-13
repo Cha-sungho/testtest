@@ -1,0 +1,130 @@
+/*
+ * PhoenixonControls_SENSING.h
+ *
+ *  Created on: 2018. 5. 20.
+ *      Author: BGKim
+ */
+
+#ifndef PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_SENSING_H_
+#define PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_SENSING_H_
+
+#define SENSING_TEMPERATUER_SLOPE                   (float)(0.01)
+#define SENSING_TEMPERATURE_AD8226_GAIN             (float)(2.717)
+
+#define SENSING_BATTERY_VOLTAGE_GAIN                (float)((float)(1.0) / CONTROL_VOLTAGE_GAIN)
+
+#define SENSING_VOLTAGE_GAIN                        (float)((float)(1.0) / CONTROL_VOLTAGE_GAIN)
+#define SENSING_CURRENT_GAIN                        (float)((float)(1.0) / CONTROL_CURRENT_GAIN)
+
+#define SENSING_LOW_CURRENT_GAIN                    (float)(SENSING_CURRENT_GAIN /(float)(11.0))
+
+#define SENSING_NEGATIVE_15V_POWER_GAIN             (float)(-10.0)
+#define SENSING_TEMPERATURE_GAIN                    (float)((float)(1.0) / (SENSING_TEMPERATUER_SLOPE * SENSING_TEMPERATURE_AD8226_GAIN))
+#define SENSING_GROUND_POWER_GAIN                   (float)(2.0)
+
+#define SENSING_NEGATIVE_02V_POWER_GAIN             (float)(2.5)
+#define SENSING_POSITIVE_07V_POWER_GAIN             (float)(3.35)//((float)(1.0) /(float)(0.2985074626)) //Vin = 7V, R1 = 470k, R2 = 200k, R2/(R1+R2) * Vin = Vout
+#define SENSING_POSITIVE_05V_POWER_GAIN             (float)(2.0)
+#define SENSING_POSITIVE_15V_POWER_GAIN             (float)(7.8)//(10.0)//((float)(1.0) /(float)(0.1)) //Vin = 15V, R1 = 90k, R2 = 10k, R2/(R1+R2) * Vin = Vout
+#define SENSING_POSITIVE_3R3V_POWER_GAIN            (float)(2.0)
+
+
+#if (ALARM_ACTIVATE == 1)
+typedef enum
+{
+    SENSING_EMERGENCY_OFF,
+    SENSING_EMERGENCY_ON,
+}E_SENSING_EMERGENCY;
+#else
+typedef enum
+{
+    SENSING_EMERGENCY_ON,
+    SENSING_EMERGENCY_OFF,
+}E_SENSING_EMERGENCY;
+#endif
+
+typedef struct
+{
+    float ADC[13];
+    float ExternalADC[8];
+//    float ExternalADC_LOW_CURRENT[8];
+}S_SENSING_ADC_RESULT_ARRAY_DATA;
+
+typedef struct
+{
+    float SENSING_SMPS_Positive_7R5V_Power;
+    float SENSING_SMPS_Negative_0V_Power;
+    float SENSING_M_Positive_15V_Power;
+    float SENSING_M_Negative_15V_Power;
+    float SENSING_Temperature;
+    float SENSING_M_Positive_5V_Power;
+    float SENSING_Bat_Voltage;
+    float SENSING_Current;
+//    float SENSING_Low_Current;
+    float SENSING_Ground_Power;
+    float SENSING_Analog_3R3V_Power;
+    float SENSING_Digital_3R3V_Power;
+    float SENSING_Analog_5V_Power;
+}S_SENSING_ADC_RESULT_DATA;
+
+typedef enum
+{
+    SENSING_BAT_VOLT_CH1,
+    SENSING_BAT_VOLT_CH2,
+    SENSING_BAT_VOLT_CH3,
+    SENSING_BAT_VOLT_CH4,
+    SENSING_CURRENT_CH1,
+    SENSING_CURRENT_CH2,
+    SENSING_CURRENT_CH3,
+    SENSING_CURRENT_CH4,
+}E_SENSING_EXTERNAL_ADC;
+
+//typedef enum
+//{
+//    SENSING_LOW_CURRENT_CH1,
+//    SENSING_LOW_CURRENT_CH2,
+//    SENSING_LOW_CURRENT_CH3,
+//    SENSING_LOW_CURRENT_CH4,
+//    SENSING_IREF_COARSE_CH1,
+//    SENSING_IREF_COARSE_CH2,
+//    SENSING_IREF_COARSE_CH3,
+//    SENSING_IREF_COARSE_CH4,
+//}E_SENSING_EXTERNAL_LOW_CURRENT_ADC;
+
+typedef enum
+{
+    SENSING_SMPS_NEGATIVE_0V_POWER,
+    SENSING_SMPS_POSITIVE_8R5V_POWER,
+    SENSING_M_POSITIVE_15V_POWER,
+    SENSING_M_NEGATIVE_15V_POWER,
+    SENSING_M_POSITIVE_5V_POWER,
+    SENSING_TEMP,
+    SENSING_GROUND_POWER_CH1,
+    SENSING_GROUND_POWER_CH2,
+    SENSING_GROUND_POWER_CH3,
+    SENSING_GROUND_POWER_CH4,
+    SENSING_ANALOG_3R3V_POWER,
+    SENSING_DIGITAL_3R3V_POWER,
+    SENSING_ANALOG_5V_POWER
+}E_SENSING_ADC;
+
+
+typedef enum
+{
+    SENSING_NONE,
+    SENSING_AD7608,
+//    SENSING_AD7608_LOW_CURRENT,
+    RESERVE,
+    SENSING_RESERVE1,
+    SENSING_DSP_ADC,
+    SENSING_RESERVE2,
+    SENSING_RESERVE3,
+    SENSING_ALL,
+}E_SENSING_ADC_SOURCE_SELECT;
+
+void SENSING_Init(void);
+E_SENSING_EMERGENCY SENSING_Emergency(void);
+Uint16 SENSING_ADC(S_SENSING_ADC_RESULT_ARRAY_DATA *s_ResultData, E_SENSING_ADC_SOURCE_SELECT e_Source);
+Uint16 SENSING_ADCResultData(S_SENSING_ADC_RESULT_DATA *s_ResultData, E_SENSING_ADC_SOURCE_SELECT e_Source, Uint16 channel);
+
+#endif /* PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_SENSING_H_ */

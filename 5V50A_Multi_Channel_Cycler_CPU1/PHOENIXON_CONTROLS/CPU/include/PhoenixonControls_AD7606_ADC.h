@@ -1,0 +1,51 @@
+/*
+ * PhoenixonControls_AD7608.h
+ *
+ *  Created on: 2018. 5. 20.
+ *      Author: BGKim
+ */
+
+#ifndef PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7606_ADC_H_
+#define PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7606_ADC_H_
+
+#define AD7606_GAIN_5V      (float)(152.5878906E-6) // -5V ~ +5V -> 5 / 2^15
+#define AD7606_GAIN_10V     (float)(305.1757813E-6) // -10V ~ +10V -> 10  / 2^15
+
+// U6ÀÇ Y0 = 001000    ->  (0x100008)  ADC_nRD
+
+// U7ÀÇ Y0 = 001000    ->  (0x100008)  ADC_CNVST
+
+
+#define AD7606_ADC_CNVST_ADDRESS            (Uint32)(0x100008)
+#define AD7606_READ_ADC_ADDRESS             (Uint32)(0x100008)
+
+#define AD7606_READ_ADC(X)                  {DSP_EmifRead(AD7606_READ_ADC_ADDRESS, X);}
+#define AD7606_CONVERSION                   {DSP_EmifWrite(AD7606_ADC_CNVST_ADDRESS, 0xFFFF);}
+
+typedef enum
+{
+	AD7606_OS_NON,
+	AD7606_02,
+	AD7606_04,
+	AD7606_08,
+	AD7606_16,
+	AD7606_32,
+	AD7606_64
+}E_AD7606_OVER_SAMPLING_SELECT;
+
+typedef enum
+{
+    AD7606_VR_NON,
+	AD7606_05_VOLTAGE,
+	AD7606_10_VOLTAGE,
+}E_AD7606_VOLTAGE_RANGE_SELECT;
+
+void AD7606_Init(void);
+void AD7606_Reset(void);
+Uint16 AD7606_Conversion(void);
+Uint16 AD7606_BusyCheck(void);
+Uint16 AD7606_OverSamplingSelect(E_AD7606_OVER_SAMPLING_SELECT e_OverSampling);
+Uint16 AD7606_VoltageRangeSelect(E_AD7606_VOLTAGE_RANGE_SELECT e_Voltage);
+Uint16 AD7606_Read(E_AD7606_VOLTAGE_RANGE_SELECT e_Voltage, E_AD7606_OVER_SAMPLING_SELECT e_OverSampling, float *Data);
+
+#endif /* PHOENIXON_CONTROLS_CPU_INCLUDE_PHOENIXONCONTROLS_AD7606_ADC_H_ */

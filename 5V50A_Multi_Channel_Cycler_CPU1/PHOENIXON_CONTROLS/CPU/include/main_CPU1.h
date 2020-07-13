@@ -1,0 +1,35 @@
+/*
+ * main.h
+ *
+ *  Created on: 2018. 5. 16.
+ *      Author: BGKim
+ */
+
+#ifndef PHOENIXON_CONTROLS_INCLUDE_MAIN_CPU1_H_
+#define PHOENIXON_CONTROLS_INCLUDE_MAIN_CPU1_H_
+
+void PHOENIXON_CONTROLS_Funtion(Uint16 channel);
+
+#if 0
+typedef enum
+{
+    CONTROL_CH1,
+    CONTROL_CH2,
+    CONTROL_CH3,
+    CONTROL_CH4
+}E_MiniCell_CONTROL_CHANNEL_SELECT;
+
+typedef enum
+{
+//  CONTROL_MASTER,
+//  CONTROL_SLAVE,
+//  CONTROL_ALL,
+//  CONTROL_CHANNEL_INIT,
+    MULTICONTROL_CH1,
+    MULTICONTROL_CH2,
+    MULTICONTROL_CH3,
+    MULTICONTROL_CH4
+}E_CONTROL_CHANNEL_SELECT;
+#endif
+
+#endif /* PHOENIXON_CONTROLS_INCLUDE_MAIN_H_ */
